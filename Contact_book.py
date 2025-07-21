@@ -99,15 +99,26 @@ def update_contact():
 
     except ValueError:
         print("Invalid input. Please enter a valid number for ID.")
-    
-  
-name = input("Enter Your Name: ")
-phone = input("Enter Your Phone: ")
-email = input("Enter Your Email: ")
 
-add_contact(name, phone, email)
-search = input("Search name: ")
-search_contact(search)
+
+
+def delete_contact(contact_id):
+    conn = sqlite3.connect("contacts.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("DELETE FROM contacts WHERE id = ?", (contact_id))
+    conn.commit()
+    conn.close()
+    
+    print("Contact deleted successfully❕")
+  
+# name = input("Enter Your Name: ")
+# phone = input("Enter Your Phone: ")
+# email = input("Enter Your Email: ")
+
+# add_contact(name, phone, email)
+# search = input("Search name: ")
+# search_contact(search)
 
 
 
