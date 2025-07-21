@@ -1,10 +1,10 @@
 import sqlite3
 
-# Connect to database (or create it if it doesn't exist)
+
 conn = sqlite3.connect("contacts.db")
 cursor = conn.cursor()
 
-# Create the contacts table if it doesn't exist
+
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS contacts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,8 +43,25 @@ def view_contacts():
         print("---- Contact list ---")
         for contact in contacts:
             print(f"ID: {contact[0]} | Name: {contact[1]} | Phone: {contact[2]} | Email: {contact[3]}")
-        else:
-            print("No contacts found")
+    else:
+        print("No contacts found")
+            
+            
+def search_contact(name_query):
+    conn = sqlite3.connect("contacts.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM contacts WHERE name LIKE ?", ('%' + name_query + '%',))
+    results = cursor.fetchall()
+    conn.close()
+    
+    if results:
+        print("--- Search Results ---")
+        for contact in results:
+            print(f"ID: {contact[0]} | Name: {contact[1]} | Phone: {contact[2]} | Email: {contact[3]}")   
+    else:
+        print(f"No contacts found with this name {name_query}")   
+          
     
     
 name = input("Enter Your Name: ")
@@ -52,5 +69,7 @@ phone = input("Enter Your Phone: ")
 email = input("Enter Your Email: ")
 
 add_contact(name, phone, email)
-
 view_contacts()
+
+search = input("Search name: ")
+search_contact(search)
