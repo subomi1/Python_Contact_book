@@ -63,13 +63,51 @@ def search_contact(name_query):
         print(f"No contacts found with this name {name_query}")   
           
     
+def update_contact():
+    view_contacts()
+    try:
+        contact_id = int(input("Enter the ID of the contact you want to update: "))
+        new_name = input("Enter new name (leave empty to keep current): ")
+        new_phone = input("Enter new phone number (leave empty to keep current): ")
+        new_email = input("Enter new email (leave empty to keep current): ")
+
+        conn = sqlite3.connect("contacts.db")
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT name, phone, email FROM contacts WHERE id = ?", (contact_id,))
+        result = cursor.fetchone()
+
+        if result:
+            current_name, current_phone, current_email = result
+
+            updated_name = new_name if new_name else current_name
+            updated_phone = new_phone if new_phone else current_phone
+            updated_email = new_email if new_email else current_email
+
+            cursor.execute('''
+                UPDATE contacts
+                SET name = ?, phone = ?, email = ?
+                WHERE id = ?
+            ''', (updated_name, updated_phone, updated_email, contact_id))
+
+            conn.commit()
+            print("✅ Contact updated successfully.")
+        else:
+            print("❌ Contact not found.")
+
+        conn.close()
+
+    except ValueError:
+        print("Invalid input. Please enter a valid number for ID.")
     
+  
 name = input("Enter Your Name: ")
 phone = input("Enter Your Phone: ")
 email = input("Enter Your Email: ")
 
 add_contact(name, phone, email)
-view_contacts()
-
 search = input("Search name: ")
 search_contact(search)
+
+
+
