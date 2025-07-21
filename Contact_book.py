@@ -111,14 +111,40 @@ def delete_contact(contact_id):
     conn.close()
     
     print("Contact deleted successfully❕")
-  
-# name = input("Enter Your Name: ")
-# phone = input("Enter Your Phone: ")
-# email = input("Enter Your Email: ")
 
-# add_contact(name, phone, email)
-# search = input("Search name: ")
-# search_contact(search)
 
+
+while True:
+    print("--- CONTACT BOOK MENU ---")
+    print("1. Add Contact")
+    print("2. View All Contacts")
+    print("3. Search Contacts")
+    print("4. Update Contacts")
+    print("5. Delete Contact")
+    print("6. Exit")
+    
+    option = int(input("Choose an option (1-6): "))
+    
+    if option == 1:
+        name = input("Enter Your Name: ")
+        phone = input("Enter Your Phone: ")
+        email = input("Enter Your Email: ")
+        add_contact(name, phone, email)
+    elif option == 2:
+        view_contacts()
+    elif option == 3:
+        name_query = input("Enter the name you are looking for: ")
+        search_contact(name_query)
+    elif option == 4:
+        update_contact()
+    elif option == 5:
+        view_contacts()
+        contact_id = input("Enter the ID of the number you want to delete: ")
+        delete_contact(contact_id)
+    elif option == 6:
+        print("Goodbye❕")
+        break
+    else: 
+        print("Invalid option. Try again.")
 
 
