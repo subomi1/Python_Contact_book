@@ -140,7 +140,13 @@ while True:
     elif option == 5:
         view_contacts()
         contact_id = input("Enter the ID of the number you want to delete: ")
-        delete_contact(contact_id)
+        query = input(f"Are you sure you want to delete the contact of ID: {contact_id} (Y)es or (N)o: ").lower()
+        if query == "y":
+            delete_contact(contact_id)
+        elif query == "n":
+            print(f"contact of ID: {contact_id} was not deleted")
+        else:
+            print("Invalid input. No contact deleted.")
     elif option == 6:
         print("Goodbye❕")
         break
